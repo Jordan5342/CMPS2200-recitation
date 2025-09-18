@@ -1,6 +1,6 @@
 # CMPS 2200  Recitation 03
 
-**Name (Team Member 1):**_________________________  
+**Name (Team Member 1):**Jordan Sztejman  
 **Name (Team Member 2):**_________________________
 
 
@@ -110,7 +110,7 @@ following:
 
 a) Describe, in your own words, what the `combine` method is doing and
 what it returns.
-
+The combine method takes the two sorted lists left_ranks and right_ranks compares them to find times when the right_ranks element is smaller than the element from left ranks. It returns a list of the merge sorted list as well as the number of disagreements.
 .  
 .  
 .  
@@ -122,7 +122,7 @@ what it returns.
 .  
 
 b) Write the work recurrence formula for `num_disagreements_fast`. Please explain how do you have this.
-
+The work recurrence for this formula is W(n) = 2W(n/2) + O(n). I got this work recurrence because the algorithm makes a recursive call to the two sorted lists which would have half the elements, making it n/2. This gives us two lists of n/2 making it 2W(n/2). Then the combine feaure works linearly making it O(n). The combined formula would be W(n) = 2W(n/2) + O(n).
 .  
 .  
 .  
@@ -131,6 +131,7 @@ b) Write the work recurrence formula for `num_disagreements_fast`. Please explai
 .  
 
 c) Solve this recurrence using any method you like. Please explain how do you have this.
+The recursion has log (base 2)(n) levels because we divide the problem size by 2 each time. Starting with size n, we get n/2, then n/4, then n/8, and so on until we reach size 1. This happens when n/2^k = 1, which means k = log₂(n). At each level, the combine operations do O(n) total work, so with log₂(n) levels, we get O(n log n) total work.
 
 .  
 .  
@@ -148,7 +149,7 @@ c) Solve this recurrence using any method you like. Please explain how do you ha
 
 d) Assuming that your recursive calls to `num_disagreements_fast` are
 done in parallel, write the span recurrence for your algorithm. Please explain how do you have this.
-
+The span recurrence for this algorithm is similary S(n) = S(n/2) + O(n). this is because the lists can be run parallel but they require the slower of the lists to finish. Since both calls have the same size (n/2), the span is just S(n/2). Then the combine function must run sequentially after both recursive calls complete, adding O(n) to the span. This would make it S(n) = S(n/2) + O(n).
 .  
 .  
 .  
@@ -163,7 +164,7 @@ done in parallel, write the span recurrence for your algorithm. Please explain h
 .  
 
 e) Solve this recurrence using any method you like. Please explain how do you have this.
-
+S(n) = S(n/2) + O(n) -> S(n) = Θ(n). The recursion has log(base 2) (n) levels, and at each level the combine operation takes O(n/2^k) time where k is the level. The total span is O(n) + O(n/2) + O(n/4) + ... which forms a geometric series that sums to O(n). The first term dominates, giving us S(n) = Θ(n).
 .  
 .  
 .  
@@ -181,4 +182,4 @@ f) If `ranks` is a list of size n, Netflix says it will give you
 lg(n) processors to run your algorithm in parallel. What is the
 upper bound on the runtime of this parallel implementation? (Hint: assume a Greedy
 Scheduler). Please explain how do you have this.
-
+The upper bound of this parrallel implementation would be O(n). I got this using the Greedy Scheduler formula T_P(n) = O(W(n)/P + S(n)). With P = lg(n) processors, W(n) = O(n log n) from part c, and S(n) = O(n) from part e, we get T_P(n) = O(n log n / log n + n) = O(n + n) = O(n). This means the parallel runtime is bounded by the larger of the distributed work and the span, which gives us the upper bound runtime of O(n).
